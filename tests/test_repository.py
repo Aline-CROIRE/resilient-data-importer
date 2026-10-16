@@ -86,3 +86,18 @@ def test_saved_json_is_valid(repository):
             "email": "aline@example.com",
         }
     ]
+
+
+def test_save_all_wraps_directory_creation_error(repository, mocker):
+    """Convert directory creation failures into StorageError."""
+    mocker.patch.object(
+        type(repository._file_path.parent),
+        "mkdir",
+        side_effect=PermissionError("Permission denied"),
+    )
+
+    with pytest.raises(
+        StorageError,
+        match="Unable to write JSON database",
+    ):
+        repository.save_all([])
