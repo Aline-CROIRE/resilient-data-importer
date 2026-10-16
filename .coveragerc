@@ -1,0 +1,11 @@
+
+[run]
+branch = True
+source = data_importer
+omit =
+    */__init__.py
+
+[report]
+show_missing = True
+skip_covered = False
+fail_under = 90
