@@ -79,10 +79,12 @@ class JsonUserRepository:
         Raises:
             StorageError: If writing the database fails.
         """
-        self._file_path.parent.mkdir(parents=True, exist_ok=True)
         temporary_path: Path | None = None
 
         try:
+            # Include directory creation in error handling.
+            self._file_path.parent.mkdir(parents=True, exist_ok=True)
+
             with NamedTemporaryFile(
                 mode="w",
                 encoding="utf-8",
@@ -116,7 +118,15 @@ class JsonUserRepository:
             ) from error
         finally:
             if temporary_path is not None:
-                temporary_path.unlink(missing_ok=True)
+                try:
+                    temporary_path.unlink(missing_ok=True)
+                except OSError:
+                    # Cleanup must not hide the original storage error.
+                    logger.warning(
+                        "Unable to remove temporary file %s",
+                        temporary_path,
+                        exc_info=True,
+                    )
 
     def add_users(self, new_users: list[User]) -> int:
         """Add users while rejecting duplicate IDs.
