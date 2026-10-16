@@ -1,10 +1,9 @@
-
 """Command-line interface for the resilient data importer."""
 
 import argparse
 import logging
+from collections.abc import Sequence
 from pathlib import Path
-from typing import Sequence
 
 from data_importer.exceptions import ImporterError
 from data_importer.importer import import_users

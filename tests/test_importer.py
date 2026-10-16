@@ -1,7 +1,4 @@
-
 """Tests for the import service."""
-
-from pathlib import Path
 
 import pytest
 

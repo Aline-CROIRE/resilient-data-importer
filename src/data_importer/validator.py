@@ -1,4 +1,3 @@
-
 """Validation rules for imported user records."""
 
 import re

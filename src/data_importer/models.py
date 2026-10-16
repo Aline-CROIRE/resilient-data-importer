@@ -1,4 +1,3 @@
-
 """Data models used by the data importer."""
 
 from dataclasses import dataclass

@@ -1,4 +1,3 @@
-
 """Tests for the JSON user repository."""
 
 import json
@@ -78,9 +77,7 @@ def test_saved_json_is_valid(repository):
 
     repository.save_all([user])
 
-    records = json.loads(
-        repository._file_path.read_text(encoding="utf-8")
-    )
+    records = json.loads(repository._file_path.read_text(encoding="utf-8"))
 
     assert records == [
         {

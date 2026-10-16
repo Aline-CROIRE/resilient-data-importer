@@ -1,4 +1,3 @@
-
 """Coordinate CSV parsing and user persistence."""
 
 import logging

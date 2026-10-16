@@ -1,4 +1,3 @@
-
 """Tests for the command-line interface."""
 
 from data_importer.cli import main

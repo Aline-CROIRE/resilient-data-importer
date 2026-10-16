@@ -1,4 +1,3 @@
-
 """JSON-backed storage for imported users."""
 
 import json
@@ -37,9 +36,7 @@ class JsonUserRepository:
             return []
 
         try:
-            with self._file_path.open(
-                "r", encoding="utf-8"
-            ) as database_file:
+            with self._file_path.open("r", encoding="utf-8") as database_file:
                 records = json.load(database_file)
 
             if not isinstance(records, list):

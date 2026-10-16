@@ -1,4 +1,3 @@
-
 """CSV parsing for user data imports."""
 
 import csv
@@ -45,19 +44,18 @@ def parse_csv(file_path: Path) -> list[User]:
             reader = csv.DictReader(csv_file)
 
             if not reader.fieldnames:
-                raise FileFormatError("The CSV file is empty or has no header.")
+                raise FileFormatError(
+                    "The CSV file is empty or has no header."
+                )
 
-            reader.fieldnames = [
-                field.strip() for field in reader.fieldnames
-            ]
+            reader.fieldnames = [field.strip() for field in reader.fieldnames]
 
             if (
                 len(reader.fieldnames) != len(set(reader.fieldnames))
                 or set(reader.fieldnames) != REQUIRED_COLUMNS
             ):
                 raise FileFormatError(
-                    "CSV headers must contain exactly: "
-                    "user_id, name, email."
+                    "CSV headers must contain exactly: user_id, name, email."
                 )
 
             for row_number, row in enumerate(reader, start=2):
@@ -72,9 +70,7 @@ def parse_csv(file_path: Path) -> list[User]:
                     )
 
                 if not any(value.strip() for value in row.values()):
-                    raise FileFormatError(
-                        f"Blank record at row {row_number}."
-                    )
+                    raise FileFormatError(f"Blank record at row {row_number}.")
 
                 user = User(
                     user_id=row["user_id"].strip(),
@@ -98,14 +94,10 @@ def parse_csv(file_path: Path) -> list[User]:
         raise
     except FileNotFoundError as error:
         logger.error("CSV file not found: %s", file_path)
-        raise ImporterError(
-            f"CSV file not found: {file_path}"
-        ) from error
+        raise ImporterError(f"CSV file not found: {file_path}") from error
     except (OSError, UnicodeDecodeError, csv.Error) as error:
         logger.exception("Unable to read CSV file: %s", file_path)
-        raise ImporterError(
-            f"Unable to read CSV file: {file_path}"
-        ) from error
+        raise ImporterError(f"Unable to read CSV file: {file_path}") from error
     else:
         logger.info("Parsed %d users from %s", len(users), file_path)
         return users
